@@ -105,7 +105,7 @@ namespace AtaquesTesting
                 txtEfecto.Text = ataqueSeleecionado.DatosAtaque.Effect + "";
                 txtExactitud.Text = ataqueSeleecionado.DatosAtaque.Accuracy + "";
                 txtPrecisionExactitud.Text = ataqueSeleecionado.DatosAtaque.EffectAccuracy + "";
-                txtPp.Text = ataqueSeleecionado.DatosAtaque.Pp + "";
+                txtPp.Text = ataqueSeleecionado.DatosAtaque.PP + "";
                 txtPoderBase.Text = ataqueSeleecionado.DatosAtaque.BasePower + "";
                 txtTarget.Text = ataqueSeleecionado.DatosAtaque.Target + "";
 
@@ -143,7 +143,7 @@ namespace AtaquesTesting
                 ataqueActual.DatosAtaque.Effect=byte.Parse(txtEfecto.Text);
                 ataqueActual.DatosAtaque.Accuracy=byte.Parse(txtExactitud.Text);
                 ataqueActual.DatosAtaque.EffectAccuracy=byte.Parse(txtPrecisionExactitud.Text);
-                ataqueActual.DatosAtaque.Pp=byte.Parse(txtPp.Text);
+                ataqueActual.DatosAtaque.PP=byte.Parse(txtPp.Text);
                 ataqueActual.DatosAtaque.BasePower=byte.Parse(txtPoderBase.Text);
                 ataqueActual.DatosAtaque.Target=byte.Parse(txtTarget.Text);
 
