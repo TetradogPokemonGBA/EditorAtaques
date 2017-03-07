@@ -66,7 +66,7 @@ namespace AtaquesTesting
 			OpenFileDialog opnFile = new OpenFileDialog();
 			opnFile.Filter = "Pokemon GBA|*.gba";
             GuardarRom();//guardo la antigua rom
-			lstAtaques.Items.Clear();
+		
 			if (opnFile.ShowDialog().GetValueOrDefault()) {
 
 				romData = new RomData(opnFile.FileName);
@@ -75,6 +75,8 @@ namespace AtaquesTesting
 
                 romData.Pokedex[0].OrdenPokedexNacional = 0;//pongo bien a missigno :D
                 romData.Pokedex.Sort();
+
+                lstAtaques.Items.Clear();
                 for (int i = 1; i < romData.Ataques.Count; i++)
                 {
                     lstAtaques.Items.Add(romData.Ataques[i]);
@@ -91,14 +93,14 @@ namespace AtaquesTesting
         {
             Ataque ataqueSeleecionado = lstAtaques.SelectedItem as Ataque;
             Image imgPokemon;
-            List<Pokemon> pokemonQueUsanElAtaque;
+            int indexAtaque;
             //guardo los datos anteriores
             if (ataqueSeleecionado != null)
             {
                 GuardarCambiosHechos();
                 ataqueActual = ataqueSeleecionado;
                 //pongo los datos
-
+                indexAtaque =romData.Ataques.IndexOf(ataqueSeleecionado)-1;
                 cmbTipos.SelectedIndex = ataqueSeleecionado.DatosAtaque.Type;
 
                 txtPrioridad.Text = ataqueSeleecionado.DatosAtaque.Priority + "";
@@ -122,14 +124,16 @@ namespace AtaquesTesting
                 tapDatosAtaque.Header = "Datos ataque: " + ataqueSeleecionado.Nombre;
 
                 uniPokemonQueUsanElAtaque.Children.Clear();
-                pokemonQueUsanElAtaque = romData.Pokedex.Filtra((pokemon) => pokemon.AtaquesAprendidos.Ataques.Filtra((ataqueAprendido) => ataqueAprendido.Ataque == romData.Ataques.IndexOf(ataqueSeleecionado)).Count > 0);
-                tapPokemonQueLoUsan.Header = "Pokemon que lo aprenden: " + pokemonQueUsanElAtaque.Count;
-                for (int i = 0; i < pokemonQueUsanElAtaque.Count; i++)
+                for (int i = 0; i < romData.Pokedex.Count; i++)
                 {
-                    imgPokemon = new Image();
-                    imgPokemon.SetImage(pokemonQueUsanElAtaque[i].Sprites.ImagenFrontalNormal);
-                    uniPokemonQueUsanElAtaque.Children.Add(imgPokemon);
+                    if (romData.Pokedex[i].AtaquesAprendidos.EstaElAtaque(indexAtaque))
+                    {
+                        imgPokemon = new Image();
+                        imgPokemon.SetImage(romData.Pokedex[i].Sprites.ImagenFrontalNormal);
+                        uniPokemonQueUsanElAtaque.Children.Add(imgPokemon);
+                    }
                 }
+                tapPokemonQueLoUsan.Header = "Pokemon que lo aprenden: " + uniPokemonQueUsanElAtaque.Children.Count;
             }
         }
 
